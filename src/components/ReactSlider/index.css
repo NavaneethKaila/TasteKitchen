@@ -1,0 +1,10 @@
+.container {
+  padding: 40px;
+}
+.offer-image {
+  width: 1110px;
+  height: 320px;
+  border-radius: 8px;
+  align-self: center;
+  margin: auto;
+}

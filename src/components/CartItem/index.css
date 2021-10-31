@@ -1,0 +1,28 @@
+.item {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.item-image-container {
+  width: 30%;
+  display: flex;
+  align-items: center;
+}
+.cart-item-image {
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+}
+.cart-item-name {
+  font-size: 18px;
+}
+.item-quantity-container {
+  display: flex;
+  align-items: center;
+}
+.quantity-controller-button {
+  margin: 5px;
+  background-color: transparent;
+  border: none;
+}

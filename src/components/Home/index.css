@@ -1,0 +1,52 @@
+.home-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.restaurants-offers {
+  padding-left: 30px;
+}
+.home-heading {
+  color: #183b56;
+  font-size: 32px;
+}
+.paragraph-options-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 20px;
+}
+.home-paragraph {
+  color: #64748b;
+  font-weight: 500;
+  font-size: 16px;
+}
+.sort-by-container {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+.sort-by-icon {
+  font-size: 30px;
+  margin-right: 10px;
+}
+.select-option {
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+.hr-line {
+  border: 1px dashed #cbd2d9;
+  margin: 25px;
+}
+.restaurants-list-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.list-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  color: #f7931e;
+}

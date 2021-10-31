@@ -1,0 +1,44 @@
+.item {
+  list-style-type: none;
+  width: 30%;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+.restaurant {
+  display: flex;
+  align-items: center;
+}
+.restaurant-image {
+  width: 160px;
+  height: 100px;
+  border-radius: 8px;
+  margin: 5px;
+}
+.name {
+  color: #334155;
+  font-size: 18px;
+  margin-bottom: 0;
+}
+.menu-type {
+  color: #64748b;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+.star-reviews-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+}
+.star {
+  color: #ffcc00;
+  font-size: 15px;
+}
+.rating {
+  color: #0f172a;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 10px;
+}
+.review {
+  color: #64748b;
+}

@@ -1,0 +1,32 @@
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background: #f8fafc;
+  padding: 10px;
+}
+.logo-container {
+  display: flex;
+}
+.header-options {
+  display: flex;
+  align-items: center;
+}
+.link-item {
+  text-decoration: none;
+}
+.option {
+  list-style-type: none;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 20px;
+  color: #334155;
+}
+.log-out-button {
+  background: #f7931e;
+  border-radius: 8px;
+  padding: 8px;
+  border: none;
+  outline: none;
+  color: #ffffff;
+}

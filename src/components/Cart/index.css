@@ -1,0 +1,9 @@
+.cart-container {
+  min-height: 100vh;
+}
+.empty-cart-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

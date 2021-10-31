@@ -1,0 +1,28 @@
+.food-item {
+  list-style-type: none;
+  width: 40%;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+}
+.food-item-image {
+  height: 150px;
+  width: 255px;
+  margin-right: 10px;
+}
+.food-name {
+  color: #334155;
+  font-size: 18px;
+}
+.price-container {
+  display: flex;
+  align-items: center;
+}
+.add-button {
+  color: #ffa412;
+  background: #ffffff;
+  border: 1px solid #ffa412;
+  border-radius: 6px;
+  padding: 5px;
+  cursor: pointer;
+}

@@ -1,0 +1,32 @@
+.footer-bg-container {
+  background-color: #0f172a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 424px;
+  color: #ffffff;
+}
+.footer-logo {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .footer-logo {
+    display: flex;
+    color: #ffffff;
+  }
+}
+.footer-heading {
+  font-size: 32px;
+  font-style: italic;
+}
+.footer-content {
+  width: 479px;
+  height: 64px;
+  font-size: 24px;
+  text-align: center;
+}
+.social-icon {
+  font-size: 40px;
+  margin: 10px;
+}
