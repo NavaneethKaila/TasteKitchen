@@ -3,9 +3,16 @@ import {BiRupee} from 'react-icons/bi'
 import './index.css'
 
 const CartItem = props => {
-  const {details} = props
-  const {imageUrl, name, quantity, cost} = details
-  console.log(details)
+  const {details, incrementCartItemQuantity, decrementCartItemQuantity} = props
+  const {id, imageUrl, name, quantity, cost} = details
+
+  const onClickDecrement = () => {
+    decrementCartItemQuantity(id)
+  }
+
+  const onClickIncrement = () => {
+    incrementCartItemQuantity(id)
+  }
 
   const renderPriceOfItem = () => {
     const price = cost * quantity
@@ -28,7 +35,7 @@ const CartItem = props => {
           type="button"
           className="quantity-controller-button"
           testid="decrement-quantity"
-          //   onClick={onClickDecrement}
+          onClick={onClickDecrement}
         >
           <BsDashSquare color="#52606D" size={20} />
         </button>
@@ -39,7 +46,7 @@ const CartItem = props => {
           type="button"
           className="quantity-controller-button"
           testid="increment-quantity"
-          //   onClick={onClickIncrement}
+          onClick={onClickIncrement}
         >
           <BsPlusSquare color="#52606D" size={20} />
         </button>
