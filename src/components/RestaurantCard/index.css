@@ -1,8 +1,10 @@
-.item {
-  list-style-type: none;
+.link-item {
+  text-decoration: none;
   width: 30%;
   margin-bottom: 10px;
-  text-decoration: none;
+}
+.item {
+  list-style-type: none;
 }
 .restaurant {
   display: flex;

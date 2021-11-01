@@ -1,10 +1,22 @@
 import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
+import {BiRupee} from 'react-icons/bi'
 import './index.css'
 
 const CartItem = props => {
   const {details} = props
-  const {imageUrl, name, quantity} = details
+  const {imageUrl, name, quantity, cost} = details
   console.log(details)
+
+  const renderPriceOfItem = () => {
+    const price = cost * quantity
+    return (
+      <div className="price-container">
+        <BiRupee />
+        <p>{price}</p>
+      </div>
+    )
+  }
+
   return (
     <li className="item" testid="cartItem">
       <div className="item-image-container">
@@ -32,6 +44,7 @@ const CartItem = props => {
           <BsPlusSquare color="#52606D" size={20} />
         </button>
       </div>
+      <div>{renderPriceOfItem()}</div>
     </li>
   )
 }

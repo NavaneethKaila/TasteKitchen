@@ -1,3 +1,4 @@
+import {BiRupee} from 'react-icons/bi'
 import Header from '../Header'
 import CartItem from '../CartItem'
 import './index.css'
@@ -5,21 +6,48 @@ import Footer from '../Footer'
 
 const Cart = () => {
   const stringifiedCartList = localStorage.getItem('CartData')
-  console.log(stringifiedCartList)
   const cartList = JSON.parse(stringifiedCartList)
+  console.log(cartList)
   console.log(typeof cartList)
   const shouldShowCartListProducts = cartList.length !== 0
   console.log(shouldShowCartListProducts)
+
+  const renderTotalPrice = () => {
+    let totalPrice = 0
+    cartList.forEach(eachCartItem => {
+      totalPrice += eachCartItem.price * eachCartItem.quantity
+    })
+
+    return (
+      <div>
+        <div className="total-price-container">
+          <BiRupee />
+          <p testid="total-price">{totalPrice}</p>
+        </div>
+        <button type="button" className="log-in-button">
+          Place Order
+        </button>
+      </div>
+    )
+  }
+
   return (
     <div className="cart-container">
       <Header />
       <div>
         {shouldShowCartListProducts ? (
-          <ul>
-            {cartList.map(eachCartItem => (
-              <CartItem key={eachCartItem.id} details={eachCartItem} />
-            ))}
-          </ul>
+          <div className="cart-item-products-price-container">
+            <ul className="cart-item-products-container">
+              {cartList.map(eachCartItem => (
+                <CartItem key={eachCartItem.id} details={eachCartItem} />
+              ))}
+            </ul>
+            <hr className="hr-line" />
+            <div className="cart-summary-container">
+              <h1>Order Total:</h1>
+              <div>{renderTotalPrice()}</div>
+            </div>
+          </div>
         ) : (
           <div className="empty-cart-container">
             <img

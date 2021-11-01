@@ -26,20 +26,6 @@ class RestaurantDetails extends Component {
     this.getRestaurantDetails()
   }
 
-  storeInCart = () => {
-    const {cartList} = this.state
-    localStorage.setItem('CartData', JSON.stringify(cartList))
-  }
-
-  onAddProduct = product => {
-    this.setState(
-      prevState => ({
-        cartList: [...prevState.cartList, product],
-      }),
-      this.storeInCart(),
-    )
-  }
-
   getFormattedData = data => ({
     rating: data.rating,
     id: data.id,
@@ -85,6 +71,58 @@ class RestaurantDetails extends Component {
     }
   }
 
+  removeProduct = id => {
+    this.setState(prevState => ({
+      cartList: prevState.cartList.filter(
+        eachCartItem => eachCartItem.id !== id,
+      ),
+    }))
+  }
+
+  printCartList = () => {
+    const {cartList} = this.state
+    console.log(cartList)
+  }
+
+  decrementProductQuantity = id => {
+    const {cartList} = this.state
+    const productObject = cartList.find(eachCartItem => eachCartItem.id === id)
+    if (productObject.quantity > 1) {
+      this.setState(
+        prevState => ({
+          cartList: prevState.cartList.map(eachCartItem => {
+            if (eachCartItem.id === id) {
+              const updatedQuantity = eachCartItem.quantity - 1
+              return {...eachCartItem, quantity: updatedQuantity}
+            }
+            return eachCartItem
+          }),
+        }),
+        this.printCartList(),
+      )
+    } else {
+      this.removeProduct(id)
+    }
+  }
+
+  incrementProductQuantity = id => {
+    this.setState(prevState => ({
+      cartList: prevState.cartList.map(eachCartItem => {
+        if (eachCartItem.id === id) {
+          const updatedQuantity = eachCartItem.quantity + 1
+          return {...eachCartItem, quantity: updatedQuantity}
+        }
+        return eachCartItem
+      }),
+    }))
+  }
+
+  onAddProduct = product => {
+    this.setState(prevState => ({
+      cartList: [...prevState.cartList, product],
+    }))
+  }
+
   renderRestaurantDetailsView = () => {
     const {restaurantDetailsData} = this.state
     const {
@@ -126,12 +164,14 @@ class RestaurantDetails extends Component {
             </div>
           </div>
         </div>
-        <ul className="food-items-container" testid="foodItem">
+        <ul className="food-items-container">
           {foodItems.map(eachItem => (
             <FoodItemCard
               key={eachItem.id}
               details={eachItem}
               onAddProduct={this.onAddProduct}
+              incrementProductQuantity={this.incrementProductQuantity}
+              decrementProductQuantity={this.decrementProductQuantity}
             />
           ))}
         </ul>
@@ -161,6 +201,9 @@ class RestaurantDetails extends Component {
   }
 
   render() {
+    const {cartList} = this.state
+    console.log(JSON.stringify(cartList))
+    localStorage.setItem('CartData', JSON.stringify(cartList))
     return (
       <div>
         <Header />

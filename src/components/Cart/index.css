@@ -7,3 +7,31 @@
   justify-content: center;
   align-items: center;
 }
+.cart-item-products-price-container {
+  border: 1px solid #0b69ff;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f9fbfe;
+  padding: 20px;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+.cart-item-products-container {
+  display: flex;
+  flex-direction: column;
+}
+.hr-line {
+  border: 1px dashed #cbd2d9;
+}
+.cart-summary-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.total-price-container {
+  display: flex;
+  align-items: center;
+  color: #ffa412;
+}

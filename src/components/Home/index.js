@@ -94,7 +94,7 @@ class Home extends Component {
   renderRestaurantsOffersList = () => {
     const {restaurantsData} = this.state
     return (
-      <ul className="restaurants-list-container" testid="restaurant-item">
+      <ul className="restaurants-list-container">
         {restaurantsData.map(eachItem => (
           <RestaurantCard key={eachItem.id} details={eachItem} />
         ))}
@@ -144,7 +144,7 @@ class Home extends Component {
                 onChange={this.onChangeOptionValue}
               >
                 {sortByOptions.map(eachOption => (
-                  <option value={eachOption.value}>
+                  <option value={eachOption.value} key={eachOption.id}>
                     {eachOption.displayText}
                   </option>
                 ))}
