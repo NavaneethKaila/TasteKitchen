@@ -1,8 +1,10 @@
 import {BiRupee} from 'react-icons/bi'
+import {Link} from 'react-router-dom'
 import Header from '../Header'
 import CartItem from '../CartItem'
 import './index.css'
 import Footer from '../Footer'
+import PaymentCard from '../PaymentCard'
 
 const Cart = () => {
   const stringifiedCartList = localStorage.getItem('CartData')
@@ -10,10 +12,12 @@ const Cart = () => {
   console.log(cartList)
   console.log(typeof cartList)
   const shouldShowCartListProducts = cartList.length !== 0
-  console.log(shouldShowCartListProducts)
+
+  const onPlaceOrder = () => <PaymentCard />
 
   const renderTotalPrice = () => {
     let totalPrice = 0
+
     cartList.forEach(eachCartItem => {
       totalPrice += eachCartItem.price * eachCartItem.quantity
     })
@@ -24,7 +28,7 @@ const Cart = () => {
           <BiRupee />
           <p testid="total-price">{totalPrice}</p>
         </div>
-        <button type="button" className="log-in-button">
+        <button type="button" className="log-in-button" onClick={onPlaceOrder}>
           Place Order
         </button>
       </div>
@@ -56,6 +60,11 @@ const Cart = () => {
             />
             <h1>No Order Yet!</h1>
             <p>Your cart is empty. Add something from the menu.</p>
+            <Link to="/">
+              <button type="button" className="log-out-button">
+                Order now
+              </button>
+            </Link>
           </div>
         )}
       </div>

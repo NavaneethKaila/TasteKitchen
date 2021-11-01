@@ -50,3 +50,9 @@
   height: 50vh;
   color: #f7931e;
 }
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
+}

@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {AiOutlineLeftSquare, AiOutlineRightSquare} from 'react-icons/ai'
 import Cookies from 'js-cookie'
 import {MdSort} from 'react-icons/md'
 import Loader from 'react-loader-spinner'
@@ -33,6 +34,7 @@ class Home extends Component {
     activeOptionValue: sortByOptions[1].value,
     apiStatus: apiStatusConstants.initial,
     restaurantsData: [],
+    activePage: 1,
   }
 
   componentDidMount() {
@@ -62,9 +64,11 @@ class Home extends Component {
 
   getRestaurantsOffersList = async () => {
     this.setState({apiStatus: apiStatusConstants.inProgress})
-    const {activeOptionValue} = this.state
+    const {activeOptionValue, activePage} = this.state
     const jwtToken = Cookies.get('jwt_token')
-    const apiUrl = `https://apis.ccbp.in/restaurants-list?offset=0&limit=9&sort_by_rating=${activeOptionValue}`
+    const limit = 9
+    const offset = (activePage - 1) * limit
+    const apiUrl = `https://apis.ccbp.in/restaurants-list?offset=${offset}&limit=${limit}&sort_by_rating=${activeOptionValue}`
     const options = {
       method: 'GET',
       headers: {
@@ -122,8 +126,32 @@ class Home extends Component {
     }
   }
 
+  increasePage = () => {
+    const {activePage} = this.state
+    if (activePage < 4) {
+      this.setState(
+        prevState => ({
+          activePage: prevState.activePage + 1,
+        }),
+        this.getRestaurantsOffersList,
+      )
+    }
+  }
+
+  decreasePage = () => {
+    const {activePage} = this.state
+    if (activePage > 1) {
+      this.setState(
+        prevState => ({
+          activePage: prevState.activePage - 1,
+        }),
+        this.getRestaurantsOffersList,
+      )
+    }
+  }
+
   render() {
-    const {activeOptionValue} = this.state
+    const {activeOptionValue, activePage} = this.state
     return (
       <div className="home-container">
         <Header />
@@ -153,6 +181,27 @@ class Home extends Component {
           </div>
           <hr className="hr-line" />
           {this.renderRestaurants()}
+          <div className="pagination-container">
+            <button
+              type="button"
+              className="quantity-controller-button"
+              onClick={this.decreasePage}
+              testid="pagination-left-button"
+            >
+              <AiOutlineLeftSquare color="#52606D" size={25} />
+            </button>
+            <p>
+              <span testid="active-page-number">{activePage}</span> of 4
+            </p>
+            <button
+              type="button"
+              className="quantity-controller-button"
+              onClick={this.increasePage}
+              testid="pagination-right-button"
+            >
+              <AiOutlineRightSquare color="#52606D" size={25} />
+            </button>
+          </div>
           <Footer />
         </div>
       </div>
