@@ -1,90 +1,72 @@
+import {Component} from 'react'
 import {BiRupee} from 'react-icons/bi'
-import {AiFillCheckCircle} from 'react-icons/ai'
 import {Link} from 'react-router-dom'
 import Header from '../Header'
 import CartItem from '../CartItem'
 import './index.css'
 import Footer from '../Footer'
 
-// import PaymentCard from '../PaymentCard'
+import PaymentCard from '../PaymentCard'
 
-const Cart = () => {
-  const getCartDataListFromLocalStorage = () => {
-    const cartDataList = JSON.parse(localStorage.getItem('CartData'))
-    if (cartDataList === null) {
-      return []
-    }
-    return cartDataList
+class Cart extends Component {
+  state = {isPaid: false, cartDataList: []}
+
+  componentDidMount() {
+    this.getCartDataListFromLocalStorage()
   }
 
-  const cartDataList = getCartDataListFromLocalStorage()
-
-  const onPlaceOrder = () => (
-    // localStorage.removeItem('CartData')
-
-    <div className="payment-container">
-      <AiFillCheckCircle color="#22C55E" size={30} />
-      <h1>Payment Successful</h1>
-      <p>Thank you for ordering Your payment is successfully completed.</p>
-      <Link to="/">
-        <button type="button" className="log-out-button">
-          Go To Home
-        </button>
-      </Link>
-    </div>
-  )
-
-  const removeCartItem = id => {
-    const updatedCartDataList = cartDataList.filter(
-      eachCartItem => eachCartItem.id !== id,
-    )
-    localStorage.setItem('CartData', JSON.stringify(updatedCartDataList))
+  getCartDataListFromLocalStorage = () => {
+    const updatedCartDataList = JSON.parse(localStorage.getItem('cartData'))
+    this.setState({cartDataList: updatedCartDataList})
   }
 
-  const decrementCartItemQuantity = id => {
+  onPlaceOrder = () => {
+    this.setState({isPaid: true})
+  }
+
+  removeCartItem = id => {
+    this.setState(prevState => ({
+      cartDataList: prevState.cartDataList.filter(
+        eachCartItem => eachCartItem.id !== id,
+      ),
+    }))
+  }
+
+  decrementCartItemQuantity = id => {
+    const {cartDataList} = this.state
     const productObject = cartDataList.find(
       eachCartItem => eachCartItem.id === id,
     )
-    if (productObject > 1) {
-      const updatedCartDataList = cartDataList.map(eachCartItem => {
+    if (productObject.quantity > 1) {
+      this.setState(prevState => ({
+        cartDataList: prevState.cartDataList.map(eachCartItem => {
+          if (eachCartItem.id === id) {
+            return {...eachCartItem, quantity: eachCartItem.quantity - 1}
+          }
+          return eachCartItem
+        }),
+      }))
+    } else {
+      this.removeCartItem(id)
+    }
+  }
+
+  incrementCartItemQuantity = id => {
+    this.setState(prevState => ({
+      cartDataList: prevState.cartDataList.map(eachCartItem => {
         if (eachCartItem.id === id) {
           return {...eachCartItem, quantity: eachCartItem.quantity + 1}
         }
         return eachCartItem
-      })
-      localStorage.setItem('CartData', JSON.stringify(updatedCartDataList))
-    } else {
-      removeCartItem(id)
-    }
+      }),
+    }))
   }
 
-  const incrementCartItemQuantity = id => {
-    const updatedCartDataList = cartDataList.map(eachCartItem => {
-      if (eachCartItem.id === id) {
-        return {...eachCartItem, quantity: eachCartItem.quantity + 1}
-      }
-      return eachCartItem
-    })
-    localStorage.setItem('CartData', JSON.stringify(updatedCartDataList))
-  }
-
-  const renderCartItemProducts = () => (
-    <ul className="cart-item-products-container">
-      {cartDataList.map(eachCartItem => (
-        <CartItem
-          key={eachCartItem.id}
-          details={eachCartItem}
-          incrementCartItemQuantity={incrementCartItemQuantity}
-          decrementCartItemQuantity={decrementCartItemQuantity}
-        />
-      ))}
-    </ul>
-  )
-
-  const renderTotalPrice = () => {
+  renderTotalPrice = () => {
+    const {cartDataList} = this.state
     let totalPrice = 0
     cartDataList.forEach(eachCartItem => {
-      totalPrice += eachCartItem.quantity + eachCartItem.cost
+      totalPrice += eachCartItem.quantity * eachCartItem.cost
     })
 
     return (
@@ -93,46 +75,69 @@ const Cart = () => {
           <BiRupee />
           <p testid="total-price">{totalPrice}</p>
         </div>
-        <button type="button" className="log-in-button" onClick={onPlaceOrder}>
+        <button
+          type="button"
+          className="log-in-button"
+          onClick={this.onPlaceOrder}
+        >
           Place Order
         </button>
       </div>
     )
   }
 
-  const shouldShowCartListProducts = cartDataList.length !== 0
-  return (
-    <div className="cart-container">
-      <Header />
-      <div>
-        {shouldShowCartListProducts ? (
-          <div className="cart-item-products-price-container">
-            {renderCartItemProducts()}
-            <hr className="hr-line" />
-            <div className="cart-summary-container">
-              <h1>Order Total:</h1>
-              <div>{renderTotalPrice()}</div>
-            </div>
-          </div>
-        ) : (
-          <div className="empty-cart-container">
-            <img
-              src="https://res.cloudinary.com/di6osww3h/image/upload/v1635655658/cooking_1_vhrlmy.png"
-              alt="empty cart"
-            />
-            <h1>No Order Yet!</h1>
-            <p>Your cart is empty. Add something from the menu.</p>
-            <Link to="/">
-              <button type="button" className="log-out-button">
-                Order now
-              </button>
-            </Link>
-          </div>
-        )}
-      </div>
-      <Footer />
+  renderEmptyCartView = () => (
+    <div className="empty-cart-container">
+      <img
+        src="https://res.cloudinary.com/di6osww3h/image/upload/v1635655658/cooking_1_vhrlmy.png"
+        alt="empty cart"
+      />
+      <h1>No Order Yet!</h1>
+      <p>Your cart is empty. Add something from the menu.</p>
+      <Link to="/">
+        <button type="button" className="log-out-button">
+          Order now
+        </button>
+      </Link>
     </div>
   )
+
+  renderCartListView = () => {
+    const {cartDataList} = this.state
+    const shouldShowCartListProducts = cartDataList.length !== 0
+    return shouldShowCartListProducts ? (
+      <div className="cart-item-products-price-container">
+        <ul className="cart-item-products-container">
+          {cartDataList.map(eachCartItem => (
+            <CartItem
+              key={eachCartItem.id}
+              details={eachCartItem}
+              incrementCartItemQuantity={this.incrementCartItemQuantity}
+              decrementCartItemQuantity={this.decrementCartItemQuantity}
+            />
+          ))}
+        </ul>
+        <hr className="hr-line" />
+        <div className="cart-summary-container">
+          <h1>Order Total:</h1>
+          <div>{this.renderTotalPrice()}</div>
+        </div>
+      </div>
+    ) : (
+      this.renderEmptyCartView()
+    )
+  }
+
+  render() {
+    const {isPaid} = this.state
+    return (
+      <div className="cart-container">
+        <Header />
+        <div>{isPaid ? <PaymentCard /> : this.renderCartListView()}</div>
+        <Footer />
+      </div>
+    )
+  }
 }
 
 export default Cart

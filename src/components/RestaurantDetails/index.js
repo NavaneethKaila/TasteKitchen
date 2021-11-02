@@ -15,14 +15,11 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-const prevCartList = JSON.parse(localStorage.getItem('CartData'))
-console.log(prevCartList)
-
 class RestaurantDetails extends Component {
   state = {
     apiStatus: apiStatusConstants.initial,
     restaurantDetailsData: {},
-    cartList: [...prevCartList],
+    cartList: [],
   }
 
   componentDidMount() {
@@ -198,7 +195,7 @@ class RestaurantDetails extends Component {
   render() {
     const {cartList} = this.state
     console.log(JSON.stringify(cartList))
-    localStorage.setItem('CartData', JSON.stringify(cartList))
+    localStorage.setItem('cartData', JSON.stringify(cartList))
     return (
       <div>
         <Header />
