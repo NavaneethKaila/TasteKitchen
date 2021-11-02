@@ -15,11 +15,14 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
+const prevCartList = JSON.parse(localStorage.getItem('CartData'))
+console.log(prevCartList)
+
 class RestaurantDetails extends Component {
   state = {
     apiStatus: apiStatusConstants.initial,
     restaurantDetailsData: {},
-    cartList: [],
+    cartList: [...prevCartList],
   }
 
   componentDidMount() {
@@ -79,27 +82,19 @@ class RestaurantDetails extends Component {
     }))
   }
 
-  printCartList = () => {
-    const {cartList} = this.state
-    console.log(cartList)
-  }
-
   decrementProductQuantity = id => {
     const {cartList} = this.state
     const productObject = cartList.find(eachCartItem => eachCartItem.id === id)
     if (productObject.quantity > 1) {
-      this.setState(
-        prevState => ({
-          cartList: prevState.cartList.map(eachCartItem => {
-            if (eachCartItem.id === id) {
-              const updatedQuantity = eachCartItem.quantity - 1
-              return {...eachCartItem, quantity: updatedQuantity}
-            }
-            return eachCartItem
-          }),
+      this.setState(prevState => ({
+        cartList: prevState.cartList.map(eachCartItem => {
+          if (eachCartItem.id === id) {
+            const updatedQuantity = eachCartItem.quantity - 1
+            return {...eachCartItem, quantity: updatedQuantity}
+          }
+          return eachCartItem
         }),
-        this.printCartList(),
-      )
+      }))
     } else {
       this.removeProduct(id)
     }
